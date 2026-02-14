@@ -1,6 +1,3 @@
-import User from "../models/user.model";
-import { connect } from "../mongodb/mongoose";
-
 export const createOrUpdateUser = async (
   id,
   first_name,
@@ -20,11 +17,14 @@ export const createOrUpdateUser = async (
           profilePicture: image_url,
           email: email_addresses?.[0]?.email_address,
         },
-      },{ upsert: true, new: true },
+      },
+      { upsert: true, new: true }
     );
+    
     return user;
   } catch (error) {
     console.log("Error Could not create or Update user:", error);
+    throw error;  // ✅ Re-throw so webhook handler knows it failed
   }
 };
 
@@ -34,5 +34,6 @@ export const DeleteUser = async (id) => {
     await User.findOneAndDelete({ clerkId: id });
   } catch (error) {
     console.log("Error: could not delete user", error);
+    throw error;  // ✅ Re-throw here too
   }  
 };
