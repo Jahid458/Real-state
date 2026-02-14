@@ -5,13 +5,13 @@ let initialized = false;
 export const connect = async () => {
   mongoose.set("strictQuery", true);
   if (initialized) {
-    console.log("MongoDB  Already Connected.  ");
+    console.log("MongoDB  Already Connected.");
     return;
   }
 
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: "Real_State",
+      dbName: "next-estate",
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
