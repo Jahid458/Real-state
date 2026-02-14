@@ -12,23 +12,19 @@ export const createOrUpdateUser = async (
     await connect();
 
     const user = await User.findOneAndUpdate(
-      { clerkId: id }, // filter
-
+      { clerkId: id }, 
       {
         $set: {
           firstName: first_name,
           lastName: last_name,
           profilePicture: image_url,
-          email: email_addresses?.[0]?.email_address,
+          email: email_addresses[0].email_address,
         },
-      },
-
-      { upsert: true, new: true },
+      },{ upsert: true, new: true },
     );
-
     return user;
   } catch (error) {
-    console.log("Error creating/updating user:", error);
+    console.log("Error Could not create or Update user:", error);
   }
 };
 
@@ -36,10 +32,7 @@ export const DeleteUser = async (id) => {
   try {
     await connect();
     await User.findOneAndDelete({ clerkId: id });
-    console.log(`User with clerkId ${id} deleted successfully.`);
   } catch (error) {
-    console.log("Error deleting user:", error);
-  } finally {
-    // No need to close the connection here, as Mongoose manages it.
-  } 
+    console.log("Error: could not delete user", error);
+  }  
 };
